@@ -12,14 +12,7 @@ version = mod_version
 group = mod_group_id
 
 repositories {
-    exclusiveContent { // Non-OI Translucency fix
-        forRepository {
-            mavenLocal()
-        }
-        filter {
-            includeModule("dev.engine-room.flywheel", "flywheel-neoforge-1.21.1")
-        }
-    }
+    mavenLocal() // Non-OI Translucency fix: prefer a locally patched flywheel, else fall back to maven.createmod.net
     maven {
         name = 'Kotlin for Forge'
         url = 'https://thedarkcolour.github.io/KotlinForForge/'
@@ -48,7 +41,10 @@ base {
     archivesName = mod_id
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+    vendor = JvmVendorSpec.JETBRAINS
+}
 kotlin {
     compilerOptions {
         languageVersion.set(KotlinVersion.KOTLIN_2_4)
@@ -75,10 +71,6 @@ neoForge {
     runs {
         client {
             client()
-            jvmArguments.addAll(
-                    '-XX:+AllowEnhancedClassRedefinition',
-                    '-XX:+UseCompactObjectHeaders'
-            )
             programArguments.addAll '--quickPlaySingleplayer', 'New Instance'
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
@@ -133,9 +125,7 @@ dependencies {
     //implementation files(System.getProperty("user.home") + "/IdeaProjects/Flywheel/neoforge/build/libs/flywheel-neoforge-1.21.1-1.0.4.jar")
     implementation "dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}"
 
-    compileOnly "dev.engine-room.vanillin:vanillin-neoforge-${minecraft_version}:${vanillin_version}"
-
-    localRuntime "dev.engine-room.vanillin:vanillin-neoforge-${minecraft_version}:${vanillin_version}"
+    implementation(jarJar("dev.engine-room.vanillin:vanillin-neoforge-${minecraft_version}:${vanillin_version}"))
     localRuntime 'maven.modrinth:worldedit:7.3.8'
     // # compat
     implementation 'maven.modrinth:gears-n-kinetics:1.0l'

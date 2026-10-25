@@ -19,10 +19,11 @@ import dev.engine_room.flywheel.lib.visual.SimpleDynamicVisual
 import dev.engine_room.flywheel.lib.visual.SimpleTickableVisual
 import dev.engine_room.vanillin.item.ItemModels
 import io.taurine.ModelCache.canBeInstanced
-import io.taurine.flywheel.ConstantMotionInstance
 import io.taurine.flywheel.PreservingInstanceRecycler
 import io.taurine.flywheel.SmartPreservingRecycler
-import io.taurine.flywheel.TaurineInstanceTypes
+import io.taurine.flywheel.instance.ConstantMotionInstance
+import io.taurine.flywheel.instance.TaurineInstanceTypes
+import io.taurine.flywheel.transform.motion
 import io.taurine.mesh.ShadowMesh.SHADOW_MODEL
 import io.taurine.visual.BeltParams
 import io.taurine.visual.impl.BeltItemLayerVisual.Companion.Flags.has
